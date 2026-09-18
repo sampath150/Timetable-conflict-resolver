@@ -1,0 +1,39 @@
+{
+  "faculty": [
+    {
+      "id": "1784992719289",
+      "name": "sampath",
+      "department": "cai"
+    },
+    {
+      "id": "1784992866561",
+      "name": "RAM",
+      "department": "EG"
+    }
+  ],
+  "rooms": [
+    {
+      "id": "1784992740750",
+      "number": "424",
+      "capacity": "60"
+    },
+    {
+      "id": "1784992881785",
+      "number": "401",
+      "capacity": "60"
+    }
+  ],
+  "schedules": [
+    {
+      "id": "1784992846640",
+      "subject": "ram",
+      "faculty": "sampath",
+      "department": "CSE",
+      "semester": "4",
+      "section": "CSM",
+      "room": "424",
+      "day": "Tuesday",
+      "timeSlot": "01:00 PM - 02:00 PM"
+    }
+  ]
+}

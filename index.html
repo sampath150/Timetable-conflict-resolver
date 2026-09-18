@@ -1,0 +1,282 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>College Timetable & Conflict Resolver</title>
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Font Awesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"/>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="light-mode">
+    
+    <!-- Sidebar Navigation -->
+    <nav class="sidebar">
+        <div class="logo">
+            <i class="fa-solid fa-graduation-cap"></i>
+            <h2>EduTime</h2>
+        </div>
+        <ul class="nav-links">
+            <li class="active" data-page="dashboard"><i class="fa-solid fa-chart-pie"></i> Dashboard</li>
+            <li data-page="scheduler"><i class="fa-solid fa-calendar-plus"></i> Scheduler</li>
+            <li data-page="matrix"><i class="fa-solid fa-table-cells"></i> Timetable Matrix</li>
+            <li data-page="faculty"><i class="fa-solid fa-chalkboard-user"></i> Faculty</li>
+            <li data-page="rooms"><i class="fa-solid fa-door-open"></i> Rooms</li>
+        </ul>
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round">
+                    <i class="fa-solid fa-sun sun-icon"></i>
+                    <i class="fa-solid fa-moon moon-icon"></i>
+                </div>
+            </label>
+        </div>
+    </nav>
+
+    <!-- Main Content Area -->
+    <main class="main-content">
+        <!-- Dashboard Page -->
+        <section id="dashboard" class="page-section active-page">
+            <header>
+                <h1>Welcome to EduTime</h1>
+                <p>College Timetable Management & Conflict Resolution System</p>
+            </header>
+            
+            <div class="dashboard-cards">
+                <div class="card stat-card">
+                    <div class="card-icon blue"><i class="fa-solid fa-book"></i></div>
+                    <div class="card-info">
+                        <h3>Total Subjects</h3>
+                        <p id="stat-subjects">0</p>
+                    </div>
+                </div>
+                <div class="card stat-card">
+                    <div class="card-icon green"><i class="fa-solid fa-users"></i></div>
+                    <div class="card-info">
+                        <h3>Total Faculty</h3>
+                        <p id="stat-faculty">0</p>
+                    </div>
+                </div>
+                <div class="card stat-card">
+                    <div class="card-icon orange"><i class="fa-regular fa-clock"></i></div>
+                    <div class="card-info">
+                        <h3>Scheduled Classes</h3>
+                        <p id="stat-classes">0</p>
+                    </div>
+                </div>
+                <div class="card stat-card">
+                    <div class="card-icon red"><i class="fa-solid fa-triangle-exclamation"></i></div>
+                    <div class="card-info">
+                        <h3>Resolved Conflicts</h3>
+                        <p id="stat-conflicts">0</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="quick-actions">
+                <button class="btn primary-btn btn-anim" onclick="switchPage('scheduler')">
+                    <i class="fa-solid fa-plus"></i> Schedule New Class
+                </button>
+                <button class="btn secondary-btn btn-anim" onclick="switchPage('matrix')">
+                    <i class="fa-solid fa-eye"></i> View Master Timetable
+                </button>
+            </div>
+        </section>
+
+        <!-- Scheduler Page -->
+        <section id="scheduler" class="page-section">
+            <header>
+                <h1>Class Scheduler</h1>
+                <p>Add new classes and resolve conflicts smartly.</p>
+            </header>
+
+            <div class="card form-card">
+                <form id="schedule-form">
+                    <div class="form-grid">
+                        <div class="form-group">
+                            <label>Subject Name</label>
+                            <input type="text" id="subject-name" required placeholder="e.g. Data Structures">
+                        </div>
+                        <div class="form-group">
+                            <label>Department</label>
+                            <select id="department" required>
+                                <option value="">Select Dept</option>
+                                <option value="CSE">Computer Science</option>
+                                <option value="ECE">Electronics</option>
+                                <option value="IT">Info Tech</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Semester</label>
+                            <select id="semester" required>
+                                <option value="">Select Sem</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="3">3rd Semester</option>
+                                <option value="4">4th Semester</option>
+                                <option value="5">5th Semester</option>
+                                <option value="6">6th Semester</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Section</label>
+                            <input type="text" id="section" required placeholder="e.g. A">
+                        </div>
+                        <div class="form-group">
+                            <label>Faculty</label>
+                            <select id="faculty-select" required>
+                                <option value="">Select Faculty...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Room</label>
+                            <select id="room-select" required>
+                                <option value="">Select Room...</option>
+                                <!-- Populated dynamically -->
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Day</label>
+                            <select id="day" required>
+                                <option value="Monday">Monday</option>
+                                <option value="Tuesday">Tuesday</option>
+                                <option value="Wednesday">Wednesday</option>
+                                <option value="Thursday">Thursday</option>
+                                <option value="Friday">Friday</option>
+                                <option value="Saturday">Saturday</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label>Time Slot</label>
+                            <select id="time-slot" required>
+                                <option value="09:00 AM - 10:00 AM">09:00 AM - 10:00 AM</option>
+                                <option value="10:00 AM - 11:00 AM">10:00 AM - 11:00 AM</option>
+                                <option value="11:00 AM - 12:00 PM">11:00 AM - 12:00 PM</option>
+                                <option value="01:00 PM - 02:00 PM">01:00 PM - 02:00 PM</option>
+                                <option value="02:00 PM - 03:00 PM">02:00 PM - 03:00 PM</option>
+                                <option value="03:00 PM - 04:00 PM">03:00 PM - 04:00 PM</option>
+                            </select>
+                        </div>
+                    </div>
+                    <button type="submit" class="btn primary-btn btn-anim full-width">Attempt Schedule</button>
+                </form>
+            </div>
+            
+            <!-- Conflict Resolution Modal -->
+            <div id="conflict-modal" class="modal">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h2><i class="fa-solid fa-triangle-exclamation text-red"></i> Conflict Detected!</h2>
+                        <span class="close-btn">&times;</span>
+                    </div>
+                    <div class="modal-body">
+                        <ul id="conflict-reasons"></ul>
+                        <div id="smart-suggestion" class="suggestion-box">
+                            <!-- Populated dynamically -->
+                        </div>
+                    </div>
+                    <div class="modal-footer">
+                        <button id="btn-cancel" class="btn danger-btn">Discard</button>
+                        <button id="btn-apply-suggestion" class="btn success-btn" style="display:none;">Apply Suggestion</button>
+                    </div>
+                </div>
+            </div>
+
+        </section>
+
+        <!-- Timetable Matrix View Page -->
+        <section id="matrix" class="page-section">
+            <header class="flex-header">
+                <div>
+                    <h1>Timetable Matrix</h1>
+                    <p>Master view of all scheduled classes.</p>
+                </div>
+                <div class="export-actions">
+                    <button class="btn outline-btn" id="btn-print"><i class="fa-solid fa-print"></i> Print</button>
+                    <button class="btn outline-btn" id="btn-export-pdf"><i class="fa-solid fa-file-pdf"></i> PDF</button>
+                </div>
+            </header>
+
+            <div class="filter-bar">
+                <select id="filter-dept">
+                    <option value="all">All Departments</option>
+                    <option value="CSE">CSE</option>
+                    <option value="ECE">ECE</option>
+                    <option value="IT">IT</option>
+                </select>
+                <select id="filter-sem">
+                    <option value="all">All Semesters</option>
+                    <option value="1">1st Sem</option>
+                    <option value="2">2nd Sem</option>
+                    <option value="3">3rd Sem</option>
+                </select>
+            </div>
+
+            <div class="table-responsive card">
+                <table id="timetable-matrix">
+                    <thead>
+                        <tr>
+                            <th>Day / Time</th>
+                            <th>09:00 AM - 10:00 AM</th>
+                            <th>10:00 AM - 11:00 AM</th>
+                            <th>11:00 AM - 12:00 PM</th>
+                            <th>01:00 PM - 02:00 PM</th>
+                            <th>02:00 PM - 03:00 PM</th>
+                            <th>03:00 PM - 04:00 PM</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <!-- Rows populated by JS -->
+                    </tbody>
+                </table>
+            </div>
+        </section>
+
+        <!-- Faculty Management Page -->
+        <section id="faculty" class="page-section">
+            <header>
+                <h1>Faculty Management</h1>
+            </header>
+            <div class="card form-card">
+                <form id="add-faculty-form" class="inline-form">
+                    <input type="text" id="faculty-name-input" placeholder="Faculty Name" required>
+                    <input type="text" id="faculty-dept-input" placeholder="Department" required>
+                    <button type="submit" class="btn primary-btn btn-anim">Add Faculty</button>
+                </form>
+            </div>
+            <div class="card mt-2">
+                <ul id="faculty-list" class="item-list"></ul>
+            </div>
+        </section>
+
+        <!-- Room Management Page -->
+        <section id="rooms" class="page-section">
+            <header>
+                <h1>Room Management</h1>
+            </header>
+            <div class="card form-card">
+                <form id="add-room-form" class="inline-form">
+                    <input type="text" id="room-number-input" placeholder="Room Number (e.g. 101)" required>
+                    <input type="number" id="room-cap-input" placeholder="Capacity" required>
+                    <button type="submit" class="btn primary-btn btn-anim">Add Room</button>
+                </form>
+            </div>
+            <div class="card mt-2">
+                <ul id="room-list" class="item-list"></ul>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- Toast Notification Container -->
+    <div id="toast-container"></div>
+
+    <!-- html2pdf for easy PDF rendering strictly via JS -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html>
